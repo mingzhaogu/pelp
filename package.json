@@ -1,0 +1,33 @@
+{
+  "name": "pelp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "server": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mingzhaogu/pelp.git"
+  },
+  "author": "mingzhaogu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mingzhaogu/pelp/issues"
+  },
+  "homepage": "https://github.com/mingzhaogu/pelp#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "^5.3.7",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "validator": "^10.8.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.5"
+  }
+}
