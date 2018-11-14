@@ -24,3 +24,5 @@ bundle.js.map
 npm-debug.log
 
 /config/keys.js
+
+.babelrc

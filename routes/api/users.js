@@ -3,8 +3,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 
-const User = require("../../models/User");
-const keys = require("../../config/keys");
+const User = require('../../models/User');
+const getSecret = require('../../config/keys');
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
 
@@ -14,11 +14,15 @@ router.get("/test", (req, res) => res.json({ msg: "This is the users route" }));
 
 // PRIVATE AUTH ROUTE
 router.get('/current', passport.authenticate('jwt', { session: false }), (req, res) => {
-    res.json({ msg: 'Success' });
+    res.json({
+        id: req.user.id,
+        name: req.user.username
+    });
 })
 
 // REGISTER NEW USERS
 router.post('/register', (req, res) => {
+    console.log('body', req.body)
     const { errors, isValid } = validateRegisterInput(req.body);
 
     if (!isValid) res.status(400).json(errors);
@@ -44,12 +48,13 @@ router.post('/register', (req, res) => {
                         newUser.password = hash;
                         newUser.save()
                             .then(user => {
+                                console.log('user', user)
                                 const payload = {
                                     id: user.id,
                                     username: user.username
                                 };
 
-                                jwt.sign(payload, keys.secretOrKeys, { expiresIn: 3600 }, (err, token) => {
+                                jwt.sign(payload, getSecret('secretOrKeys'), { expiresIn: 3600 }, (err, token) => {
                                     res.json({
                                         success: true,
                                         token: "Bearer " + token
@@ -86,7 +91,7 @@ router.post('/login', (req, res) => {
                 if (isMatch) {
                     const payload = { id: user.id, name: user.name };
 
-                    jsonwebtoken.sign(payload, keys.secretOrKey, { expiresIn: 3600 }, (err, token) => {
+                    jsonwebtoken.sign(payload, getSecret('secretOrKey'), { expiresIn: 3600 }, (err, token) => {
                         res.json({
                             success: true,
                             token: 'Bearer ' + token
